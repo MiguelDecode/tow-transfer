@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: tow-transfer-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tow
+      POSTGRES_PASSWORD: tow_dev_password
+      POSTGRES_DB: tow_transfer
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
