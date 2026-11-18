@@ -181,11 +181,31 @@ Linter: `npm run lint` en `backend` y en `frontend`.
 | ESLint como linter (en lugar de Oxlint) | Estándar, muy documentado y con el ecosistema de plugins más completo; el tamaño del proyecto no requiere la velocidad de Oxlint |
 | TypeScript fijado en la versión 6.0 (`~6.0.3`) en el backend | typescript-eslint aún no soporta TypeScript 7; se actualizará cuando lo haga |
 | PostgreSQL en Docker durante el desarrollo | Instalación idéntica en cualquier equipo y fácil de reproducir en el servidor de la empresa |
+| Repositorio en GitHub; una rama por paso o feature integrada en `main` con Pull Request | Mantener `main` estable, tener un historial ordenado y practicar un flujo de trabajo profesional |
+| Código, ramas, commits y Pull Requests en inglés; interfaz en español | Seguir la convención habitual del código y mantener la aplicación en el idioma de los usuarios |
 | Backend propio en lugar de servicio gestionado | Objetivo de aprendizaje |
 | Docker para el despliegue | Facilitar el paso posterior a un servidor de la empresa |
 | Stack: React + TS, Node/Express, PostgreSQL + Prisma, JWT, Zod | Encaja con el objetivo de aprender backend, con tipado de extremo a extremo |
 
-## 10. Roadmap (versiones futuras)
+## 10. Flujo de trabajo con Git
+
+- **`main`** contiene siempre una versión que funciona.
+- Cada paso del plan o feature se desarrolla en **su propia rama**, con nombre `tipo/descripcion-corta` (por ejemplo `feat/step-07-prisma-schema`). Tipos: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`.
+- Los commits son pequeños y siguen el formato `tipo: descripción` (por ejemplo `feat: add Prisma schema`).
+- **Idioma:** código, nombres de ramas, mensajes de commit y Pull Requests en inglés; la interfaz de la aplicación en español.
+- La rama se integra en `main` mediante **Pull Request** (squash and merge) y después se borra.
+
+```bash
+git switch main && git pull
+git switch -c feat/nombre-de-la-rama
+# ... trabajar y hacer commits ...
+git push -u origin feat/nombre-de-la-rama
+# abrir Pull Request en GitHub, fusionar y borrar la rama
+git switch main && git pull
+git branch -d feat/nombre-de-la-rama
+```
+
+## 11. Roadmap (versiones futuras)
 
 - Seguimiento GPS en tiempo real
 - Calendario de disponibilidad de grúas
