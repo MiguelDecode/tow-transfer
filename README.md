@@ -129,6 +129,8 @@ docker compose up -d
 cd backend
 cp .env.example .env
 npm install
+npx prisma migrate dev   # creates the tables and generates the Prisma client
+npx prisma db seed       # optional: sample data for development only
 npm run dev        # http://localhost:3000/api/health
 
 # 3. Frontend (en otra terminal)
@@ -138,6 +140,8 @@ npm run dev        # http://localhost:5173
 ```
 
 Linter: `npm run lint` en `backend` y en `frontend`.
+
+Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@example.com`, `driver1@example.com`, `driver2@example.com` y `requester@example.com`, todos con la contraseña `Dev1234!`.
 
 ## 8. Registro de pasos
 
@@ -183,6 +187,7 @@ Linter: `npm run lint` en `backend` y en `frontend`.
 | PostgreSQL en Docker durante el desarrollo | Instalación idéntica en cualquier equipo y fácil de reproducir en el servidor de la empresa |
 | Repositorio en GitHub; una rama por paso o feature integrada en `main` con Pull Request | Mantener `main` estable, tener un historial ordenado y practicar un flujo de trabajo profesional |
 | Código, ramas, commits y Pull Requests en inglés; interfaz en español | Seguir la convención habitual del código y mantener la aplicación en el idioma de los usuarios |
+| Prisma 7 con el adaptador `pg` para acceder a PostgreSQL; roles, estados y urgencias en inglés en el código (`REQUESTER`, `DRIVER`, `MANAGER`, `ADMIN`; `PENDING`, `ASSIGNED`, `IN_PROGRESS`, `DELIVERED`, `CANCELLED`) y traducidos en la interfaz | Seguir la regla de código en inglés y mostrar la interfaz en español |
 | Backend propio en lugar de servicio gestionado | Objetivo de aprendizaje |
 | Docker para el despliegue | Facilitar el paso posterior a un servidor de la empresa |
 | Stack: React + TS, Node/Express, PostgreSQL + Prisma, JWT, Zod | Encaja con el objetivo de aprender backend, con tipado de extremo a extremo |
