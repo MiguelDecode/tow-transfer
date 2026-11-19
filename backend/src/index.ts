@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+import { centersRouter } from "./routes/centers.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -15,3 +16,5 @@ app.get("/api/health", (_req, res) => {
 app.listen(port, () => {
   console.log(`API escuchando en http://localhost:${port}`);
 });
+
+app.use("/api/centers", centersRouter);
