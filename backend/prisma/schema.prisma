@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  REQUESTER
+  DRIVER
+  MANAGER
+  ADMIN
+}
+
+enum TransferStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  DELIVERED
+  CANCELLED
+}
+
+enum Urgency {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+model Center {
+  id                   Int        @id @default(autoincrement())
+  name                 String     @unique
+  address              String?
+  active               Boolean    @default(true)
+  users                User[]
+  originTransfers      Transfer[] @relation("TransferOrigin")
+  destinationTransfers Transfer[] @relation("TransferDestination")
+
+  @@map("centers")
+}
+
+model User {
+  id                 Int                     @id @default(autoincrement())
+  name               String
+  email              String                  @unique
+  passwordHash       String
+  role               Role
+  centerId           Int?
+  center             Center?                 @relation(fields: [centerId], references: [id])
+  active             Boolean                 @default(true)
+  createdAt          DateTime                @default(now())
+  requestedTransfers Transfer[]              @relation("TransferRequester")
+  drivenTransfers    Transfer[]              @relation("TransferDriver")
+  statusChanges      TransferStatusHistory[]
+
+  @@map("users")
+}
+
+model Transfer {
+  id                  Int                     @id @default(autoincrement())
+  plate               String?
+  vin                 String?
+  brand               String
+  model               String
+  originCenterId      Int
+  destinationCenterId Int
+  originCenter        Center                  @relation("TransferOrigin", fields: [originCenterId], references: [id])
+  destinationCenter   Center                  @relation("TransferDestination", fields: [destinationCenterId], references: [id])
+  requestedAt         DateTime
+  scheduledAt         DateTime?
+  urgency             Urgency                 @default(NORMAL)
+  status              TransferStatus          @default(PENDING)
+  notes               String?
+  requesterId         Int
+  requester           User                    @relation("TransferRequester", fields: [requesterId], references: [id])
+  driverId            Int?
+  driver              User?                   @relation("TransferDriver", fields: [driverId], references: [id])
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  history             TransferStatusHistory[]
+
+  @@index([status])
+  @@index([requesterId])
+  @@index([driverId])
+  @@map("transfers")
+}
+
+model TransferStatusHistory {
+  id          Int            @id @default(autoincrement())
+  transferId  Int
+  transfer    Transfer       @relation(fields: [transferId], references: [id])
+  status      TransferStatus
+  changedById Int
+  changedBy   User           @relation(fields: [changedById], references: [id])
+  changedAt   DateTime       @default(now())
+
+  @@index([transferId])
+  @@map("transfer_status_history")
+}
