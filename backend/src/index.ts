@@ -3,11 +3,13 @@ import cors from "cors";
 import { config } from "./config.js";
 import { authRouter } from "./routes/auth.js";
 import { centersRouter } from "./routes/centers.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
