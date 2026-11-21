@@ -4,7 +4,7 @@ _Gestión de traslados en grúa entre centros._
 
 Aplicación web interna para gestionar las solicitudes de traslado de vehículos entre los distintos centros de trabajo de un grupo de concesionarios. Sustituye el flujo actual (correo electrónico + Excel) por un sistema con roles, estados e historial.
 
-> **Estado del proyecto:** en planificación (Paso 8 de 16).
+> **Estado del proyecto:** en planificación (Paso 9 de 16).
 > Proyecto de estudio / portfolio, con posibilidad de uso real en la empresa.
 
 ---
@@ -101,15 +101,15 @@ Reglas de integridad:
 
 > Stack confirmado en el Paso 3. Desarrollo sobre Linux (Manjaro).
 
-| Capa          | Tecnología                                                                                                             |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Frontend      | Vite + React + TypeScript + React Router (diseño responsive, móvil primero)                                            |
-| Backend       | Node.js + Express + TypeScript                                                                                         |
-| Base de datos | PostgreSQL con Prisma                                                                                                  |
-| Autenticación | Email y contraseña (bcryptjs) + JWT firmado con `jose`, guardado en cookie `httpOnly`; control de roles en el servidor |
-| Validación    | Zod                                                                                                                    |
-| Pruebas       | Vitest                                                                                                                 |
-| Contenedores  | Docker                                                                                                                 |
+| Capa          | Tecnología                                                                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend      | Vite + React + TypeScript + React Router, TanStack Query (datos del servidor), React Hook Form + Zod (formularios) y Tailwind CSS (estilos); diseño responsive, móvil primero |
+| Backend       | Node.js + Express + TypeScript                                                                                                                                                |
+| Base de datos | PostgreSQL con Prisma                                                                                                                                                         |
+| Autenticación | Email y contraseña (bcryptjs) + JWT firmado con `jose`, guardado en cookie `httpOnly`; control de roles en el servidor                                                        |
+| Validación    | Zod                                                                                                                                                                           |
+| Pruebas       | Vitest                                                                                                                                                                        |
+| Contenedores  | Docker                                                                                                                                                                        |
 
 ## 6. Despliegue
 
@@ -146,24 +146,24 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 
 ## 8. Registro de pasos
 
-| Nº  | Paso                                                          | Estado                                                       |
-| --- | ------------------------------------------------------------- | ------------------------------------------------------------ |
-| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado                                                |
-| 2   | Definir roles, permisos y estados                             | ✅ Completado                                                |
-| 3   | Elegir stack tecnológico                                      | ✅ Completado                                                |
-| 4   | Diseñar modelo de datos                                       | ✅ Completado                                                |
-| 5   | Bocetar pantallas                                             | ✅ Completado                                                |
-| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado                                                |
-| 7   | Configurar backend y base de datos                            | ✅ Completado                                                |
-| 8   | Autenticación y roles, gestión de usuarios y API de traslados | 🔄 En curso (8.1 a 8.5 hechos; 8.6 acciones sobre traslados) |
-| 9   | Pantallas del solicitante                                     | ⏳                                                           |
-| 10  | Pantallas del administrador y gestor                          | ⏳                                                           |
-| 11  | Pantallas del gruista                                         | ⏳                                                           |
-| 12  | Validaciones, errores y estados de carga                      | ⏳                                                           |
-| 13  | Pruebas                                                       | ⏳                                                           |
-| 14  | Despliegue                                                    | ⏳                                                           |
-| 15  | Documentación final                                           | ⏳                                                           |
-| 16  | Feedback y versión 2                                          | ⏳                                                           |
+| Nº  | Paso                                                          | Estado        |
+| --- | ------------------------------------------------------------- | ------------- |
+| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado |
+| 2   | Definir roles, permisos y estados                             | ✅ Completado |
+| 3   | Elegir stack tecnológico                                      | ✅ Completado |
+| 4   | Diseñar modelo de datos                                       | ✅ Completado |
+| 5   | Bocetar pantallas                                             | ✅ Completado |
+| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado |
+| 7   | Configurar backend y base de datos                            | ✅ Completado |
+| 8   | Autenticación y roles, gestión de usuarios y API de traslados | ✅ Completado |
+| 9   | Pantallas del solicitante                                     | 🔄 En curso   |
+| 10  | Pantallas del administrador y gestor                          | ⏳            |
+| 11  | Pantallas del gruista                                         | ⏳            |
+| 12  | Validaciones, errores y estados de carga                      | ⏳            |
+| 13  | Pruebas                                                       | ⏳            |
+| 14  | Despliegue                                                    | ⏳            |
+| 15  | Documentación final                                           | ⏳            |
+| 16  | Feedback y versión 2                                          | ⏳            |
 
 ## 9. Decisiones tomadas
 
@@ -180,7 +180,10 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 | Se evitan traslados activos duplicados por matrícula o chasis                                                                                                                                                                                       | Evitar solicitudes repetidas por error                                                                                           |
 | Los gruistas atienden cualquier centro                                                                                                                                                                                                              | Solo hay 2-3 gruistas                                                                                                            |
 | Tabla de historial de estados, además del estado actual                                                                                                                                                                                             | Saber quién cambió qué y cuándo; base del historial futuro                                                                       |
-| Colores del frontend como variables CSS (`--accent`, `--ink`, `--bg`, colores de estado…)                                                                                                                                                           | Poder adaptarlos a la imagen corporativa del grupo cambiando un solo bloque                                                      |
+| Estilos con Tailwind CSS; adaptar los colores a la imagen corporativa queda para más adelante                                                                                                                                                       | Herramienta que ya conoce el autor; el tema se podrá ajustar con `@theme` si hace falta                                          |
+| TanStack Query para las peticiones y React Hook Form con Zod para los formularios                                                                                                                                                                   | Menos código repetitivo (cargas, errores, caché) y validación con el mismo estilo que el backend                                 |
+| En desarrollo el frontend llama a `/api` y Vite redirige las llamadas al backend (proxy)                                                                                                                                                            | Mismo origen para el navegador: las cookies de sesión funcionan sin ajustes especiales                                           |
+| Textos de estados, urgencias y roles traducidos a español en un único archivo del frontend                                                                                                                                                          | Código en inglés e interfaz en español                                                                                           |
 | Pantallas de login, detalle de traslado y centros sin boceto previo                                                                                                                                                                                 | Se diseñarán al programarlas, reutilizando el estilo de las demás                                                                |
 | Sin notificaciones ni comprobante de entrega en la v1                                                                                                                                                                                               | Mantener el MVP sencillo                                                                                                         |
 | ESLint como linter (en lugar de Oxlint)                                                                                                                                                                                                             | Estándar, muy documentado y con el ecosistema de plugins más completo; el tamaño del proyecto no requiere la velocidad de Oxlint |
@@ -225,7 +228,30 @@ git switch main && git pull
 git branch -d feat/nombre-de-la-rama
 ```
 
-## 11. Roadmap (versiones futuras)
+## 11. API
+
+Todas las rutas, salvo el login y `health`, requieren sesión (cookie `httpOnly`).
+
+| Ruta                                                            | Quién                           | Descripción                                                                                                            |
+| --------------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `GET /api/health`                                               | Público                         | Comprobación de estado                                                                                                 |
+| `POST /api/auth/login`, `POST /api/auth/logout`                 | Público / sesión                | Inicio y cierre de sesión                                                                                              |
+| `GET /api/auth/me`                                              | Sesión                          | Usuario actual                                                                                                         |
+| `POST /api/auth/change-password`                                | Sesión                          | Cambio de contraseña propia                                                                                            |
+| `GET /api/centers`                                              | Sesión                          | Centros activos (el admin puede añadir `?includeInactive=true`)                                                        |
+| `POST /api/centers`, `PATCH /api/centers/:id`                   | Admin                           | Alta y edición de centros                                                                                              |
+| `GET /api/users`, `POST /api/users`, `PATCH /api/users/:id`     | Admin                           | Gestión de usuarios (alta, edición, desactivación y contraseña)                                                        |
+| `POST /api/transfers`                                           | Solicitante, gestor, admin      | Crear traslado                                                                                                         |
+| `GET /api/transfers`                                            | Sesión                          | Listado según el rol, con filtros (`status`, `urgency`, `centerId`, `driverId`, `q`) y paginación (`page`, `pageSize`) |
+| `GET /api/transfers/:id`                                        | Sesión                          | Detalle con historial                                                                                                  |
+| `PATCH /api/transfers/:id`                                      | Según permisos                  | Editar datos                                                                                                           |
+| `POST /api/transfers/:id/assign`                                | Gruista, gestor, admin          | Asignar gruista y fecha                                                                                                |
+| `PATCH /api/transfers/:id/schedule`                             | Gruista asignado, gestor, admin | Cambiar la fecha asignada                                                                                              |
+| `POST /api/transfers/:id/release`, `start`, `deliver`, `cancel` | Según permisos                  | Liberar, iniciar, entregar y cancelar                                                                                  |
+
+Cada traslado devuelto incluye `allowedActions`, con lo que el usuario actual puede hacer sobre él.
+
+## 12. Roadmap (versiones futuras)
 
 - Seguimiento GPS en tiempo real
 - Calendario de disponibilidad de grúas
