@@ -1,3 +1,4 @@
+import { currentUser, requireAuth } from "../middleware/auth.js";
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
@@ -60,5 +61,43 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.post("/logout", (_req, res) => {
   res.clearCookie(SESSION_COOKIE, cookieOptions);
+  res.status(204).end();
+});
+
+authRouter.get("/me", requireAuth, (req, res) => {
+  res.json(currentUser(req));
+});
+
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(8).max(72),
+});
+
+authRouter.post("/change-password", requireAuth, async (req, res) => {
+  const parsed = changePasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
+    res
+      .status(400)
+      .json({ error: "New password must be between 8 and 72 characters" });
+    return;
+  }
+  const { currentPassword, newPassword } = parsed.data;
+
+  const user = await prisma.user.findUnique({
+    where: { id: currentUser(req).id },
+  });
+  if (!user || !(await bcrypt.compare(currentPassword, user.passwordHash))) {
+    res.status(400).json({ error: "Current password is incorrect" });
+    return;
+  }
+  if (currentPassword === newPassword) {
+    res.status(400).json({ error: "New password must be different" });
+    return;
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { passwordHash: await bcrypt.hash(newPassword, 10) },
+  });
   res.status(204).end();
 });
