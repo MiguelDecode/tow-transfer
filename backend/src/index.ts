@@ -1,20 +1,21 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
+import { config } from "./config.js";
+import { authRouter } from "./routes/auth.js";
 import { centersRouter } from "./routes/centers.js";
 
 const app = express();
-const port = process.env.PORT ?? 3000;
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-app.listen(port, () => {
-  console.log(`API escuchando en http://localhost:${port}`);
-});
-
+app.use("/api/auth", authRouter);
 app.use("/api/centers", centersRouter);
+
+app.listen(config.PORT, () => {
+  console.log(`API listening on http://localhost:${config.PORT}`);
+});
