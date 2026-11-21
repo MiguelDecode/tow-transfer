@@ -68,3 +68,14 @@ export function currentUser(req: Request): AuthUser {
   }
   return req.user;
 }
+
+// Use after requireAuth: requireAuth, requireRole("ADMIN")
+export function requireRole(...roles: RoleName[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes(currentUser(req).role)) {
+      res.status(403).json({ error: "Forbidden" });
+      return;
+    }
+    next();
+  };
+}
