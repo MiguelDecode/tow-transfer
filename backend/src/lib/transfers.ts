@@ -17,3 +17,16 @@ export const transferInclude = {
   requester: { select: { id: true, name: true } },
   driver: { select: { id: true, name: true } },
 } as const;
+
+// Everything shown in the transfer detail, including its history.
+export const transferDetailInclude = {
+  ...transferInclude,
+  history: {
+    orderBy: { changedAt: "asc" },
+    select: {
+      status: true,
+      changedAt: true,
+      changedBy: { select: { id: true, name: true } },
+    },
+  },
+} as const;

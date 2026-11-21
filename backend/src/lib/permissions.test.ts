@@ -5,6 +5,7 @@ import {
   canCancelTransfer,
   canChangeProgress,
   canRelease,
+  canReschedule,
   canSelfAssign,
   canViewTransfer,
   transferVisibilityFilter,
@@ -121,8 +122,19 @@ describe("allowed actions", () => {
       selfAssign: false,
       assignDriver: false,
       release: false,
+      reschedule: false,
       start: false,
       deliver: false,
     });
+  });
+});
+
+describe("rescheduling", () => {
+  it("lets the assigned driver and staff reschedule an assigned transfer", () => {
+    const t = transfer("ASSIGNED", 1, 5);
+    expect(canReschedule(user("DRIVER", 5), t)).toBe(true);
+    expect(canReschedule(user("DRIVER", 6), t)).toBe(false);
+    expect(canReschedule(user("MANAGER"), t)).toBe(true);
+    expect(canReschedule(user("REQUESTER", 1), t)).toBe(false);
   });
 });
