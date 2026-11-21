@@ -146,24 +146,24 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 
 ## 8. Registro de pasos
 
-| Nº  | Paso                                                          | Estado                                                                             |
-| --- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado                                                                      |
-| 2   | Definir roles, permisos y estados                             | ✅ Completado                                                                      |
-| 3   | Elegir stack tecnológico                                      | ✅ Completado                                                                      |
-| 4   | Diseñar modelo de datos                                       | ✅ Completado                                                                      |
-| 5   | Bocetar pantallas                                             | ✅ Completado                                                                      |
-| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado                                                                      |
-| 7   | Configurar backend y base de datos                            | ✅ Completado                                                                      |
-| 8   | Autenticación y roles, gestión de usuarios y API de traslados | 🔄 En curso (8.1 a 8.3 hechos; 8.4 usuarios y centros; 8.5 y 8.6 API de traslados) |
-| 9   | Pantallas del solicitante                                     | ⏳                                                                                 |
-| 10  | Pantallas del administrador y gestor                          | ⏳                                                                                 |
-| 11  | Pantallas del gruista                                         | ⏳                                                                                 |
-| 12  | Validaciones, errores y estados de carga                      | ⏳                                                                                 |
-| 13  | Pruebas                                                       | ⏳                                                                                 |
-| 14  | Despliegue                                                    | ⏳                                                                                 |
-| 15  | Documentación final                                           | ⏳                                                                                 |
-| 16  | Feedback y versión 2                                          | ⏳                                                                                 |
+| Nº  | Paso                                                          | Estado                                                     |
+| --- | ------------------------------------------------------------- | ---------------------------------------------------------- |
+| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado                                              |
+| 2   | Definir roles, permisos y estados                             | ✅ Completado                                              |
+| 3   | Elegir stack tecnológico                                      | ✅ Completado                                              |
+| 4   | Diseñar modelo de datos                                       | ✅ Completado                                              |
+| 5   | Bocetar pantallas                                             | ✅ Completado                                              |
+| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado                                              |
+| 7   | Configurar backend y base de datos                            | ✅ Completado                                              |
+| 8   | Autenticación y roles, gestión de usuarios y API de traslados | 🔄 En curso (8.1 a 8.4 hechos; 8.5 y 8.6 API de traslados) |
+| 9   | Pantallas del solicitante                                     | ⏳                                                         |
+| 10  | Pantallas del administrador y gestor                          | ⏳                                                         |
+| 11  | Pantallas del gruista                                         | ⏳                                                         |
+| 12  | Validaciones, errores y estados de carga                      | ⏳                                                         |
+| 13  | Pruebas                                                       | ⏳                                                         |
+| 14  | Despliegue                                                    | ⏳                                                         |
+| 15  | Documentación final                                           | ⏳                                                         |
+| 16  | Feedback y versión 2                                          | ⏳                                                         |
 
 ## 9. Decisiones tomadas
 
@@ -197,6 +197,9 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 | El admin puede cancelar traslados pendientes, asignados o en curso, pero no los ya entregados o cancelados                                                                                                                                          | Cancelar algo ya entregado no tiene sentido                                                                                      |
 | Gestor y admin solo editan los datos de un traslado mientras está pendiente o asignado                                                                                                                                                              | Una vez en curso, los datos quedan fijos                                                                                         |
 | Los 401 indican "sin sesión" y los 403 "rol sin permiso"                                                                                                                                                                                            | Permite al frontend distinguir cerrar sesión de mostrar un aviso                                                                 |
+| Las respuestas de traslados incluyen `allowedActions`, calculadas en el servidor con las reglas de `permissions.ts`                                                                                                                                 | El frontend sabe qué botones mostrar sin duplicar las reglas de permisos                                                         |
+| Un traslado que el usuario no puede ver responde 404, no 403                                                                                                                                                                                        | No revelar que existe                                                                                                            |
+| Matrículas y chasis se normalizan al guardar (sin espacios ni guiones, en mayúsculas)                                                                                                                                                               | Detectar duplicados aunque se escriban de formas distintas                                                                       |
 | Backend propio en lugar de servicio gestionado                                                                                                                                                                                                      | Objetivo de aprendizaje                                                                                                          |
 | Docker para el despliegue                                                                                                                                                                                                                           | Facilitar el paso posterior a un servidor de la empresa                                                                          |
 | Stack: React + TS, Node/Express, PostgreSQL + Prisma, JWT, Zod                                                                                                                                                                                      | Encaja con el objetivo de aprender backend, con tipado de extremo a extremo                                                      |
