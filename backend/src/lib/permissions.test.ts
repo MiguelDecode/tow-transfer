@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { AuthUser } from "../middleware/auth.js";
 import {
+  allowedActions,
   canCancelTransfer,
   canChangeProgress,
   canRelease,
@@ -105,5 +106,23 @@ describe("visibility", () => {
   it("shows managers and admins everything", () => {
     expect(transferVisibilityFilter(user("MANAGER"))).toEqual({});
     expect(transferVisibilityFilter(user("ADMIN"))).toEqual({});
+  });
+});
+
+describe("allowed actions", () => {
+  it("lists what a requester can do with their pending transfer", () => {
+    const actions = allowedActions(
+      user("REQUESTER", 1),
+      transfer("PENDING", 1),
+    );
+    expect(actions).toEqual({
+      edit: true,
+      cancel: true,
+      selfAssign: false,
+      assignDriver: false,
+      release: false,
+      start: false,
+      deliver: false,
+    });
   });
 });

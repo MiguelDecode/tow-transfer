@@ -74,3 +74,16 @@ export function canChangeProgress(
   if (t.status !== requiredStatus) return false;
   return user.role === "ADMIN" || isAssignedDriver(user, t);
 }
+
+// What the current user can do with a transfer. The frontend uses it to decide which buttons to show, so the rules live only in this file.
+export function allowedActions(user: AuthUser, t: TransferSnapshot) {
+  return {
+    edit: canEditTransfer(user, t),
+    cancel: canCancelTransfer(user, t),
+    selfAssign: canSelfAssign(user, t),
+    assignDriver: canAssignDriver(user, t),
+    release: canRelease(user, t),
+    start: canChangeProgress(user, t, "IN_PROGRESS"),
+    deliver: canChangeProgress(user, t, "DELIVERED"),
+  };
+}
