@@ -11,10 +11,14 @@ import type {
   Transfer,
   TransferDetail,
   TransferStatus,
+  Urgency,
 } from "../lib/types";
 
 export type TransferFilters = {
   status?: TransferStatus;
+  urgency?: Urgency;
+  centerId?: number;
+  driverId?: number;
   q?: string;
   page: number;
   pageSize: number;
@@ -29,6 +33,9 @@ export function useTransfers(filters: TransferFilters) {
         pageSize: String(filters.pageSize),
       });
       if (filters.status) params.set("status", filters.status);
+      if (filters.urgency) params.set("urgency", filters.urgency);
+      if (filters.centerId) params.set("centerId", String(filters.centerId));
+      if (filters.driverId) params.set("driverId", String(filters.driverId));
       if (filters.q) params.set("q", filters.q);
       return api<Paginated<Transfer>>(`/transfers?${params.toString()}`);
     },

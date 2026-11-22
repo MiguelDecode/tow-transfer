@@ -4,7 +4,7 @@ _Gestión de traslados en grúa entre centros._
 
 Aplicación web interna para gestionar las solicitudes de traslado de vehículos entre los distintos centros de trabajo de un grupo de concesionarios. Sustituye el flujo actual (correo electrónico + Excel) por un sistema con roles, estados e historial.
 
-> **Estado del proyecto:** en planificación (Paso 9 de 16).
+> **Estado del proyecto:** en planificación (Paso 10 de 16).
 > Proyecto de estudio / portfolio, con posibilidad de uso real en la empresa.
 
 ---
@@ -146,24 +146,24 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 
 ## 8. Registro de pasos
 
-| Nº  | Paso                                                          | Estado                                        |
-| --- | ------------------------------------------------------------- | --------------------------------------------- |
-| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado                                 |
-| 2   | Definir roles, permisos y estados                             | ✅ Completado                                 |
-| 3   | Elegir stack tecnológico                                      | ✅ Completado                                 |
-| 4   | Diseñar modelo de datos                                       | ✅ Completado                                 |
-| 5   | Bocetar pantallas                                             | ✅ Completado                                 |
-| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado                                 |
-| 7   | Configurar backend y base de datos                            | ✅ Completado                                 |
-| 8   | Autenticación y roles, gestión de usuarios y API de traslados | ✅ Completado                                 |
-| 9   | Pantallas del solicitante                                     | 🔄 En curso (9.1 a 9.3 hechos; 9.4 pendiente) |
-| 10  | Pantallas del administrador y gestor                          | ⏳                                            |
-| 11  | Pantallas del gruista                                         | ⏳                                            |
-| 12  | Validaciones, errores y estados de carga                      | ⏳                                            |
-| 13  | Pruebas                                                       | ⏳                                            |
-| 14  | Despliegue                                                    | ⏳                                            |
-| 15  | Documentación final                                           | ⏳                                            |
-| 16  | Feedback y versión 2                                          | ⏳                                            |
+| Nº  | Paso                                                          | Estado        |
+| --- | ------------------------------------------------------------- | ------------- |
+| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado |
+| 2   | Definir roles, permisos y estados                             | ✅ Completado |
+| 3   | Elegir stack tecnológico                                      | ✅ Completado |
+| 4   | Diseñar modelo de datos                                       | ✅ Completado |
+| 5   | Bocetar pantallas                                             | ✅ Completado |
+| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado |
+| 7   | Configurar backend y base de datos                            | ✅ Completado |
+| 8   | Autenticación y roles, gestión de usuarios y API de traslados | ✅ Completado |
+| 9   | Pantallas del solicitante                                     | ✅ Completado |
+| 10  | Pantallas del administrador y gestor                          | 🔄 En curso   |
+| 11  | Pantallas del gruista                                         | ⏳            |
+| 12  | Validaciones, errores y estados de carga                      | ⏳            |
+| 13  | Pruebas                                                       | ⏳            |
+| 14  | Despliegue                                                    | ⏳            |
+| 15  | Documentación final                                           | ⏳            |
+| 16  | Feedback y versión 2                                          | ⏳            |
 
 ## 9. Decisiones tomadas
 
@@ -241,6 +241,7 @@ Todas las rutas, salvo el login y `health`, requieren sesión (cookie `httpOnly`
 | `POST /api/auth/change-password`                                | Sesión                          | Cambio de contraseña propia                                                                                            |
 | `GET /api/centers`                                              | Sesión                          | Centros activos (el admin puede añadir `?includeInactive=true`)                                                        |
 | `POST /api/centers`, `PATCH /api/centers/:id`                   | Admin                           | Alta y edición de centros                                                                                              |
+| `GET /api/drivers`                                              | Admin, gestor                   | Gruistas activos (para asignar y filtrar)                                                                              |
 | `GET /api/users`, `POST /api/users`, `PATCH /api/users/:id`     | Admin                           | Gestión de usuarios (alta, edición, desactivación y contraseña)                                                        |
 | `POST /api/transfers`                                           | Solicitante, gestor, admin      | Crear traslado                                                                                                         |
 | `GET /api/transfers`                                            | Sesión                          | Listado según el rol, con filtros (`status`, `urgency`, `centerId`, `driverId`, `q`) y paginación (`page`, `pageSize`) |

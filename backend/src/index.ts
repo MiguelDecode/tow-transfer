@@ -6,6 +6,7 @@ import { centersRouter } from "./routes/centers.js";
 import cookieParser from "cookie-parser";
 import { usersRouter } from "./routes/users.js";
 import { transfersRouter } from "./routes/transfers.js";
+import { driversRouter } from "./routes/drivers.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/centers", centersRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/transfers", transfersRouter);
+app.use("/api/drivers", driversRouter);
 
 app.listen(config.PORT, () => {
   console.log(`API listening on http://localhost:${config.PORT}`);
