@@ -1,6 +1,16 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { api } from "../lib/api";
-import type { Paginated, Transfer, TransferStatus } from "../lib/types";
+import type {
+  CreateTransferBody,
+  Paginated,
+  Transfer,
+  TransferStatus,
+} from "../lib/types";
 
 export type TransferFilters = {
   status?: TransferStatus;
@@ -22,5 +32,17 @@ export function useTransfers(filters: TransferFilters) {
       return api<Paginated<Transfer>>(`/transfers?${params.toString()}`);
     },
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useCreateTransfer() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: CreateTransferBody) =>
+      api<Transfer>("/transfers", { method: "POST", body }),
+    onSuccess: () => {
+      // The lists are out of date now: they will be requested again.
+      void queryClient.invalidateQueries({ queryKey: ["transfers"] });
+    },
   });
 }
