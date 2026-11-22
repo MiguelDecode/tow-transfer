@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import TransferTable from "../components/TransferTable";
 import { useMe } from "../hooks/useAuth";
 import { useTransfers } from "../hooks/useTransfers";
@@ -47,7 +47,17 @@ export default function TransfersPage() {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold">{title}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold">{title}</h1>
+        {me.data && me.data.role !== "DRIVER" && (
+          <Link
+            to="/transfers/new"
+            className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          >
+            Nuevo traslado
+          </Link>
+        )}
+      </div>
 
       <div className="mt-4 mb-4 flex flex-wrap items-end gap-4">
         <div>
