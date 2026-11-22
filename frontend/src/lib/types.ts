@@ -73,3 +73,11 @@ export type CreateTransferBody = {
   urgency: Urgency;
   notes: string | null;
 };
+
+export type HistoryEntry = {
+  status: TransferStatus;
+  changedAt: string;
+  changedBy: NamedRef;
+};
+
+export type TransferDetail = Transfer & { history: HistoryEntry[] };

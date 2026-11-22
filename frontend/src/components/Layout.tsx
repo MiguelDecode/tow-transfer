@@ -27,10 +27,10 @@ export default function Layout() {
             </nav>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <span>
+            <NavLink to="/account" className={linkClass}>
               {user.name} ·{" "}
               <span className="text-slate-500">{roleLabels[user.role]}</span>
-            </span>
+            </NavLink>
             <button
               type="button"
               onClick={() => logout.mutate()}

@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { formatDateTime } from "../lib/format";
 import type { Transfer } from "../lib/types";
 import { StatusBadge, UrgencyBadge } from "./Badges";
+import { Link } from "react-router";
 
 const headerClass = "px-4 py-3 font-medium";
 
@@ -98,6 +99,14 @@ export default function TransferTable({
                             Observaciones
                           </dt>
                           <dd>{transfer.notes ?? "—"}</dd>
+                        </div>
+                        <div className="sm:col-span-3">
+                          <Link
+                            to={`/transfers/${transfer.id}`}
+                            className="text-blue-700 hover:underline"
+                          >
+                            Ver detalle e historial →
+                          </Link>
                         </div>
                       </dl>
                     </td>
