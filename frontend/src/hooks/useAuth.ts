@@ -37,8 +37,12 @@ export function useLogout() {
   return useMutation({
     mutationFn: () => api<void>("/auth/logout", { method: "POST" }),
     onSuccess: () => {
-      queryClient.clear();
+      // First mark the session as closed, so the app redirects to the login...
       queryClient.setQueryData(["me"], null);
+      // ...and then drop the previous user's data from the cache.
+      queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] !== "me",
+      });
     },
   });
 }
