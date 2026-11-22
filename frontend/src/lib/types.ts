@@ -81,3 +81,5 @@ export type HistoryEntry = {
 };
 
 export type TransferDetail = Transfer & { history: HistoryEntry[] };
+
+export type DriverOption = { id: number; name: string };

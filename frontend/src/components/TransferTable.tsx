@@ -1,17 +1,20 @@
 import { Fragment, useState } from "react";
+import { Link } from "react-router";
 import { formatDateTime } from "../lib/format";
 import type { Transfer } from "../lib/types";
 import { StatusBadge, UrgencyBadge } from "./Badges";
-import { Link } from "react-router";
 
 const headerClass = "px-4 py-3 font-medium";
 
-export default function TransferTable({
-  transfers,
-}: {
+type Props = {
   transfers: Transfer[];
-}) {
+  // Managers and admins also see the urgency and the requester.
+  staffView?: boolean;
+};
+
+export default function TransferTable({ transfers, staffView = false }: Props) {
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const columns = staffView ? 9 : 7;
 
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
@@ -21,6 +24,8 @@ export default function TransferTable({
             <th className={headerClass}>Matrícula / Chasis</th>
             <th className={headerClass}>Vehículo</th>
             <th className={headerClass}>Recogida → Entrega</th>
+            {staffView && <th className={headerClass}>Urgencia</th>}
+            {staffView && <th className={headerClass}>Solicitante</th>}
             <th className={headerClass}>Gruista</th>
             <th className={headerClass}>Fecha asignada</th>
             <th className={headerClass}>Estado</th>
@@ -50,6 +55,14 @@ export default function TransferTable({
                     {transfer.originCenter.name} →{" "}
                     {transfer.destinationCenter.name}
                   </td>
+                  {staffView && (
+                    <td className="px-4 py-3">
+                      <UrgencyBadge urgency={transfer.urgency} />
+                    </td>
+                  )}
+                  {staffView && (
+                    <td className="px-4 py-3">{transfer.requester.name}</td>
+                  )}
                   <td className="px-4 py-3">{transfer.driver?.name ?? "—"}</td>
                   <td className="px-4 py-3">
                     {formatDateTime(transfer.scheduledAt)}
@@ -72,7 +85,7 @@ export default function TransferTable({
                 </tr>
                 {expanded && (
                   <tr className="bg-slate-50">
-                    <td colSpan={7} className="px-4 py-3">
+                    <td colSpan={columns} className="px-4 py-3">
                       <dl className="grid gap-3 sm:grid-cols-3">
                         <div>
                           <dt className="text-xs font-medium text-slate-500">
