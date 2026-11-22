@@ -71,6 +71,16 @@ export default function TransferTable({ transfers, staffView = false }: Props) {
                     <StatusBadge status={transfer.status} />
                   </td>
                   <td className="px-4 py-3 text-right">
+                    {staffView &&
+                      transfer.status === "PENDING" &&
+                      transfer.allowedActions.assignDriver && (
+                        <Link
+                          to={`/transfers/${transfer.id}`}
+                          className="mr-2 inline-block whitespace-nowrap rounded bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-700"
+                        >
+                          Asignar
+                        </Link>
+                      )}
                     <button
                       type="button"
                       aria-expanded={expanded}

@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { Link, Navigate, useParams } from "react-router";
 import { StatusBadge, UrgencyBadge } from "../components/Badges";
-import { useTransfer, useTransferAction } from "../hooks/useTransfers";
+import TransferActions from "../components/TransferActions";
+import { useTransfer } from "../hooks/useTransfers";
 import { ApiError } from "../lib/api";
 import { formatDateTime } from "../lib/format";
 
@@ -26,7 +27,6 @@ export default function TransferDetailPage() {
   const params = useParams();
   const id = Number(params.id);
   const transfer = useTransfer(id);
-  const action = useTransferAction();
 
   if (!Number.isInteger(id) || id <= 0) {
     return <Navigate to="/transfers" replace />;
@@ -62,16 +62,6 @@ export default function TransferDetailPage() {
 
   const t = transfer.data;
 
-  function cancelTransfer() {
-    if (
-      window.confirm(
-        "¿Seguro que quieres cancelar este traslado? No se puede deshacer.",
-      )
-    ) {
-      action.mutate({ id: t.id, action: "cancel" });
-    }
-  }
-
   return (
     <section className="mx-auto max-w-3xl">
       {backLink}
@@ -81,37 +71,17 @@ export default function TransferDetailPage() {
           <h1 className="text-2xl font-semibold">{t.plate ?? t.vin}</h1>
           <StatusBadge status={t.status} />
         </div>
-        <div className="flex gap-2">
-          {t.allowedActions.edit && (
-            <Link
-              to={`/transfers/${t.id}/edit`}
-              className="rounded border border-blue-600 px-3 py-2 text-sm text-blue-700 hover:bg-blue-50"
-            >
-              Editar
-            </Link>
-          )}
-          {t.allowedActions.cancel && (
-            <button
-              type="button"
-              onClick={cancelTransfer}
-              disabled={action.isPending}
-              className="rounded border border-red-600 px-3 py-2 text-sm text-red-700 hover:bg-red-50 disabled:opacity-60"
-            >
-              Cancelar traslado
-            </button>
-          )}
-        </div>
+        {t.allowedActions.edit && (
+          <Link
+            to={`/transfers/${t.id}/edit`}
+            className="rounded border border-blue-600 px-3 py-2 text-sm text-blue-700 hover:bg-blue-50"
+          >
+            Editar datos
+          </Link>
+        )}
       </div>
 
-      {action.isError && (
-        <p
-          role="alert"
-          className="mt-3 rounded bg-red-50 px-3 py-2 text-sm text-red-800"
-        >
-          No se pudo completar la acción. Es posible que el traslado haya
-          cambiado: recarga la página.
-        </p>
-      )}
+      <TransferActions transfer={t} />
 
       <dl className="mt-4 grid gap-4 rounded-lg border border-slate-200 bg-white p-6 sm:grid-cols-2">
         <Info label="Matrícula">{t.plate ?? "—"}</Info>

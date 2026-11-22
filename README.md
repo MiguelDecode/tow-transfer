@@ -146,24 +146,24 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 
 ## 8. Registro de pasos
 
-| Nº  | Paso                                                          | Estado        |
-| --- | ------------------------------------------------------------- | ------------- |
-| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado |
-| 2   | Definir roles, permisos y estados                             | ✅ Completado |
-| 3   | Elegir stack tecnológico                                      | ✅ Completado |
-| 4   | Diseñar modelo de datos                                       | ✅ Completado |
-| 5   | Bocetar pantallas                                             | ✅ Completado |
-| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado |
-| 7   | Configurar backend y base de datos                            | ✅ Completado |
-| 8   | Autenticación y roles, gestión de usuarios y API de traslados | ✅ Completado |
-| 9   | Pantallas del solicitante                                     | ✅ Completado |
-| 10  | Pantallas del administrador y gestor                          | 🔄 En curso   |
-| 11  | Pantallas del gruista                                         | ⏳            |
-| 12  | Validaciones, errores y estados de carga                      | ⏳            |
-| 13  | Pruebas                                                       | ⏳            |
-| 14  | Despliegue                                                    | ⏳            |
-| 15  | Documentación final                                           | ⏳            |
-| 16  | Feedback y versión 2                                          | ⏳            |
+| Nº  | Paso                                                          | Estado                                           |
+| --- | ------------------------------------------------------------- | ------------------------------------------------ |
+| 1   | Definir requisitos y alcance del MVP                          | ✅ Completado                                    |
+| 2   | Definir roles, permisos y estados                             | ✅ Completado                                    |
+| 3   | Elegir stack tecnológico                                      | ✅ Completado                                    |
+| 4   | Diseñar modelo de datos                                       | ✅ Completado                                    |
+| 5   | Bocetar pantallas                                             | ✅ Completado                                    |
+| 6   | Preparar entorno (Node, Git, Vite + React + TS)               | ✅ Completado                                    |
+| 7   | Configurar backend y base de datos                            | ✅ Completado                                    |
+| 8   | Autenticación y roles, gestión de usuarios y API de traslados | ✅ Completado                                    |
+| 9   | Pantallas del solicitante                                     | ✅ Completado                                    |
+| 10  | Pantallas del administrador y gestor                          | 🔄 En curso (10.1 hecho; 10.2 a 10.4 pendientes) |
+| 11  | Pantallas del gruista                                         | ⏳                                               |
+| 12  | Validaciones, errores y estados de carga                      | ⏳                                               |
+| 13  | Pruebas                                                       | ⏳                                               |
+| 14  | Despliegue                                                    | ⏳                                               |
+| 15  | Documentación final                                           | ⏳                                               |
+| 16  | Feedback y versión 2                                          | ⏳                                               |
 
 ## 9. Decisiones tomadas
 
@@ -207,6 +207,8 @@ Datos de prueba (solo desarrollo): usuarios `admin@example.com`, `manager@exampl
 | Los cambios de estado comprueban el estado esperado en la propia actualización y se guardan junto a su historial en una transacción                                                                                                                 | Evitar que dos usuarios pisen el mismo traslado (por ejemplo, dos gruistas asignándoselo a la vez)                               |
 | La fecha asignada debe ser futura; el gruista asignado puede reprogramarla                                                                                                                                                                          | El gruista tiene la última palabra sobre la fecha                                                                                |
 | Un único formulario de traslado para crear y editar, con su esquema de validación en `lib/transferForm.ts`                                                                                                                                          | Evitar duplicar campos y reglas                                                                                                  |
+| Las acciones del detalle de un traslado (asignar, reprogramar, liberar, iniciar, entregar, cancelar) se muestran según `allowedActions`, para todos los roles                                                                                       | Un único panel de acciones para gestor, admin y gruista, sin repetir reglas de permisos en el frontend                           |
+| Tras cualquier acción, haya ido bien o mal, se recargan los traslados                                                                                                                                                                               | Mostrar siempre el estado real si alguien más lo cambió a la vez                                                                 |
 | Backend propio en lugar de servicio gestionado                                                                                                                                                                                                      | Objetivo de aprendizaje                                                                                                          |
 | Docker para el despliegue                                                                                                                                                                                                                           | Facilitar el paso posterior a un servidor de la empresa                                                                          |
 | Stack: React + TS, Node/Express, PostgreSQL + Prisma, JWT, Zod                                                                                                                                                                                      | Encaja con el objetivo de aprender backend, con tipado de extremo a extremo                                                      |
