@@ -96,7 +96,7 @@ export function toRequestBody(values: TransferFormValues): CreateTransferBody {
 }
 
 // The value a datetime-local input expects: local time, without seconds.
-function toDateTimeLocal(iso: string) {
+export function toDateTimeLocal(iso: string) {
   const date = new Date(iso);
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;

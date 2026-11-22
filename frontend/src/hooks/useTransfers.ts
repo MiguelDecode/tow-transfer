@@ -81,7 +81,29 @@ export function useTransferAction() {
   return useMutation({
     mutationFn: ({ id, action }: { id: number; action: TransferAction }) =>
       api<Transfer>(`/transfers/${id}/${action}`, { method: "POST" }),
-    onSuccess: () => {
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: ["transfers"] });
+    },
+  });
+}
+
+export function useAssignTransfer(id: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { driverId?: number; scheduledAt: string }) =>
+      api<Transfer>(`/transfers/${id}/assign`, { method: "POST", body }),
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: ["transfers"] });
+    },
+  });
+}
+
+export function useRescheduleTransfer(id: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { scheduledAt: string }) =>
+      api<Transfer>(`/transfers/${id}/schedule`, { method: "PATCH", body }),
+    onSettled: () => {
       void queryClient.invalidateQueries({ queryKey: ["transfers"] });
     },
   });
